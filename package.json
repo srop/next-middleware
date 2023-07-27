@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node server.js",
+    
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -12,7 +13,10 @@
     "@types/node": "20.4.4",
     "@types/react": "18.2.16",
     "@types/react-dom": "18.2.7",
+    "axios": "^1.4.0",
+    "http-proxy": "^1.18.1",
     "next": "13.4.12",
+    "next-http-proxy-middleware": "^1.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "5.1.6"
