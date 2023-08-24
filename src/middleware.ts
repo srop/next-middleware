@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
       const verifiedToken =  await verifyAuth(token).catch((err)=>{
         console.log(err)
       })
-      console.log(verifiedToken)
+      console.log("verifiedToken",verifiedToken)
     }
     //   if(!verifiedToken){
     //     return NextResponse.redirect(new URL('/', request.url))

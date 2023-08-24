@@ -1,4 +1,5 @@
-import {jwtVerify, SignJWT} from "jose"
+import * as jose from 'jose'
+
 export const verifyAuth = async (token) => {
     console.log("--------verifyAuth------------")
     try{
@@ -18,7 +19,7 @@ export const verifyAuth = async (token) => {
         
         const { payload, protectedHeader } = await jose.jwtVerify(jwt, publicKey)
         
-        console.log(protectedHeader)
+        // console.log(protectedHeader)
         console.log(payload)
         return payload
 
