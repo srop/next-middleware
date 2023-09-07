@@ -1,6 +1,6 @@
 
 "use client"
-import axios from '../../axios.config';
+import instance from '../../axios.config';
 import * as React from "react";
 import { useEffect, useState } from 'react'
 
@@ -10,7 +10,7 @@ export default function Homepage (){
   React.useEffect(() => {
     const url = "/api/users/1";
 
-    axios
+    instance
       .get(url)
       .then((response: any) => {
         // handle success

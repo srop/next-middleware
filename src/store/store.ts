@@ -1,6 +1,6 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { combineReducers, configureStore, AnyAction } from '@reduxjs/toolkit'
 import { HYDRATE, createWrapper } from 'next-redux-wrapper'
- import users from './usersSlice'
+import users from './usersSlice'
 import counter from './counterSlice'
 import { useDispatch } from "react-redux";
 const combinedReducer = combineReducers({
@@ -8,33 +8,41 @@ const combinedReducer = combineReducers({
   users,
 });
 
-// const masterReducer = (state, action) => {
-//     if (action.type === HYDRATE) {
-//         const nextState = {
-//             ...state, // use previous state
-//             counter: {
-//                 count: state.counter.count + action.payload.counter.count,
-//             },
-//             users: {
-//                 users: [...action.payload.users.users, ...state.users.users]
-//             }
-//         }
-//         return nextState;
-//     } else {
-//     return combinedReducer(state, action)
-//   }
-// }
+const masterReducer  = (state:any, action: AnyAction) => {
+  if (action.type === HYDRATE) {
+    const nextState = {
+      ...state, // use previous state
+      ...action.payload, // apply delta from hydration
+    };
+    return nextState;
+  } else {
+    return combinedReducer(state, action);
+  }
+};
 
-// export const makeStore = () =>
-//   configureStore({
-//     reducer: combinedReducer,
-//   });
 
+export const makeStore = () =>
+  configureStore({
+    reducer: masterReducer,
+  });
+
+
+  type Store = ReturnType<typeof makeStore>;
 // export const store  = createWrapper(makeStore, { debug: true });
+
+// export type RootState = ReturnType<Store['getState']>;
+// export type AppDispatch = Store['dispatch'];
+// 
+// export const wrapper = createWrapper(makeStore, { debug: true });
+
+export type RootState = ReturnType<Store['getState']>;
+export type AppDispatch =  Store['dispatch'];
+export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const store = configureStore({
-    reducer: combinedReducer,
-  
-   });
-   export type RootState = ReturnType<typeof store.getState>;
-   export type AppDispatch = typeof store.dispatch;
-   export const useAppDispatch = () => useDispatch<AppDispatch>();
+  reducer: combinedReducer,
+  devTools: true,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
+});

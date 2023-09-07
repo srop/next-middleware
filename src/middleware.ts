@@ -7,8 +7,7 @@ export async function middleware(request: NextRequest) {
     //return NextResponse.redirect(new URL('/home', request.url))
     console.log('Middleware')
     const token = request.cookies.get('user-token')?.value
-    // console.log(request)
-    
+
     console.log(projectRoutes)
     console.log(request.nextUrl.pathname)
     if(projectRoutes.includes(request.nextUrl.pathname)){
@@ -16,6 +15,9 @@ export async function middleware(request: NextRequest) {
       const verifiedToken =  await verifyAuth(token).catch((err)=>{
         console.log(err)
       })
+     if(verifiedToken?.iat !== 1669056488){
+
+     }
       console.log("verifiedToken",verifiedToken)
     }
     //   if(!verifiedToken){
